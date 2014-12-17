@@ -19,6 +19,10 @@
      (recur (dec i)))))
 
 (defn nil-key [k m]
+  ; (def m {})
+  ; (:a m) returns nil
+  ; This function truely test to see if a map actually contains a nil value,
+  ; given a key.
   (and (contains? m k) (nil? (m k))))
 
 (defn my-last [[first-el & rest-el]]
@@ -56,7 +60,6 @@
 (defn filter-odd [col]
   (filter #(odd? %) col))
 
-; this might be broken
 (defn my-reverse [col-seq]
   (let [col-type (type col-seq)
         empty-col (cond
@@ -69,6 +72,13 @@
           (recur (rest cs) (cons (first cs) ec))
           (recur (rest cs) (into (vector (first cs)) ec)))
         ec))))
+
+(defn palindrome [col-seq]
+  (let [elem-cnt (count col-seq)]
+    (cond (or (= elem-cnt 1) (= elem-cnt 0)) true
+          (= (first col-seq) (last col-seq)) (recur (drop-last (rest col-seq)))
+          :else false)))
+
 
 (defn set-interval [callback-fn ms]
   (future (while true (do (Thread/sleep ms) (callback-fn)))))
