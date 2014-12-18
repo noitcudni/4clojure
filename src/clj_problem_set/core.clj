@@ -79,6 +79,16 @@
           (= (first col-seq) (last col-seq)) (recur (drop-last (rest col-seq)))
           :else false)))
 
+(defn fibonacci [x]
+  (loop [i x
+         accum '()]
+    (cond (= i 0) accum
+          (<= (count accum) 1) (recur (dec i) (concat accum '(1)))
+          :else (recur (dec i)
+                       (concat accum
+                               (let [elem-cnt (count accum)]
+                                 (list (+ (nth accum (- elem-cnt 1))
+                                          (nth accum (- elem-cnt 2))))))))))
 
 (defn set-interval [callback-fn ms]
   (future (while true (do (Thread/sleep ms) (callback-fn)))))
