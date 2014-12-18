@@ -93,6 +93,18 @@
 (defn set-interval [callback-fn ms]
   (future (while true (do (Thread/sleep ms) (callback-fn)))))
 
+(defn my-max [& args]
+  (loop [head (first args)
+         tail (rest args)
+         max-so-far nil]
+    (if (nil? head) max-so-far
+      (recur
+        (first tail)
+        (rest tail)
+        (cond (nil? max-so-far) head
+              (> head max-so-far) head
+              :else max-so-far)))))
+
 (defn -main
   "I don't do a whole lot."
   []
